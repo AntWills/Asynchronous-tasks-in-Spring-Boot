@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 @RestController("/")
@@ -105,5 +106,20 @@ public class UserController {
                 .toList();
 
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("parallel-stream/{num}")
+    public ResponseEntity getParallel(@PathVariable int num){
+        // Não recomendado para processar multiplos dados.
+        List<String> names = IntStream.range(1, num)
+                .parallel()
+                .mapToObj(i -> "Pessoa " + i)
+                .toList();
+
+        List<String> resultado = names.parallelStream()
+                .map(userService::addNumber)
+                .toList();
+
+        return ResponseEntity.ok(resultado);
     }
 }
