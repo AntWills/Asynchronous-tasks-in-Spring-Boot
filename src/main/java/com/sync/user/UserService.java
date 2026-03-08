@@ -20,7 +20,7 @@ public class UserService {
         }
     }
 
-    @Async(AsyncConfig.VIRTUAL_TASK_EXECUTOR)
+    @Async
     public CompletableFuture<String> getByIdVirtualTaks(Long id) {
         return CompletableFuture.completedFuture(getById(id));
     }

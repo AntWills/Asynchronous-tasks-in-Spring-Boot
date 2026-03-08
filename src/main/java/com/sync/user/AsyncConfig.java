@@ -6,22 +6,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Configuration
 @EnableAsync
 public class AsyncConfig {
-
-    public static final String VIRTUAL_TASK_EXECUTOR = "virtualTaskExecutor";
     public static final String PLATFORM_TASK_EXECUTOR = "platformTaskExecutor";
-
-    @Bean(name = VIRTUAL_TASK_EXECUTOR)
-    public Executor taskExecutor() {
-        // Cria um executor que inicia uma Virtual Thread para cada tarefa
-        return Executors.newThreadPerTaskExecutor(
-                Thread.ofVirtual().name("vthread-", 0).factory()
-        );
-    }
 
     @Bean(name = PLATFORM_TASK_EXECUTOR)
     public Executor platformTaskExecutor() {
